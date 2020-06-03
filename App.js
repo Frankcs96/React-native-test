@@ -1,19 +1,40 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { SplashScreen } from "expo";
+
+import Register from "./Components/Register";
+import { View, TouchableWithoutFeedback } from "react-native";
 
 export default function App() {
+  const [loaded, setLoaded] = useState(false);
+  const [isRegistered, setRegistered] = useState(false);
+
+  useEffect(() => {
+    SplashScreen.preventAutoHide();
+    setTimeout(() => {
+      SplashScreen.hide();
+      setLoaded(true);
+    }, 3000);
+  });
+
+  const splashSreenHandler = () => {
+    SplashScreen.hide();
+    setLoaded(true);
+  };
+
+  console.log(isRegistered);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+    <TouchableWithoutFeedback
+      touchSoundDisabled={true}
+      onPress={() => splashSreenHandler()}
+    >
+      <View>
+        {loaded ? (
+          <Register />
+        ) : (
+          <View style={{ width: "100%", height: "100%" }}></View>
+        )}
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
